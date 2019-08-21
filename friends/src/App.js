@@ -20,12 +20,12 @@ function App() {
             <Link to='/friendsList'>Friends List</Link>
           </li>
           <li>
-            <Link to='/newFriend'>New Friend Form</Link>
+            <Link to='/newFriend'>Add Friend</Link>
           </li>
         </ul>
         <Route path='/login' component={ Login } />
         <PrivateRoute exact path='/friendsList' component={ FriendsList } />
-        <PrivateRoute exact path='newFriend' component={ NewFriend } />
+        <PrivateRoute path='/newFriend' component={ NewFriend } />
       </div>
     </Router>
   );

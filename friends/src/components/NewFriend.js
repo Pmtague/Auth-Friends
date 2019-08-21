@@ -1,65 +1,66 @@
 import React from 'react';
-import axios from 'axios';
+import { Form, Field, withFormik } from 'formik';
+import { axiosWithAuth } from '../utils/axiosWithAuth';
 
-class NewFriend extends React.Component {
-	state = {
-		friends: {
-			id: '',
-			name: '',
-			age: '',
-			email: ''
-		}
-	}
+const NewFriend = () => {
 
-	handleChange = e => {
-		this.setState({
-			friends: {
-				...this.state.friends,
-				[ e.target.name ]: e.target.value
-			}
-		});
-	};
-
-	// handleSubmit = e => {
-	// 	console.log('Submit button clicked!')
-	// 	e.preventDefault();
-	// 	axios
-	// 		.post('http://localhost:5000/api/friends', this.state.friends)
-	// 		.then(res => {
-	// 			console.log('Submit Friend', res)
-	// 		})
-	// 		.catch(err => {
-	// 			console.log('Error', err.response)
-	// 		})
-	// }
-
-	render() {
-		return (
-			<div onSubmit={ this.handleSubmit }>
-				<form>
-					<input
+	return (
+		<div>
+			<Form>
+				<label>
+					Name
+					<Field
 						type='text'
 						name='name'
-						value={ this.state.friends.name }
-						onChange={ this.handleChange }
+						placeholder='Hope Brett'
 					/>
-					<input
+				</label>
+				<label>
+					Age
+					<Field
 						type='age'
 						name='age'
-						value={ this.state.friends.age }
-						onChange={ this.handleChange }
+						placeholder='34'
 					/>
-					<input
+				</label>
+				<label>
+					Email
+					<Field
 						type='email'
 						name='email'
-						value={ this.state.friends.email }
-						onChange={ this.handleChange }
+						placeholder='hope@brett.com'
 					/>
-					<button>Add Friend</button>
-				</form>
-			</div>
-		)
-	}
+				</label>
+				<button type='submit'>Add Friend</button>
+			</Form>
+		</div>
+	)
 }
 
-export default NewFriend;
+const NewFriendFormik = withFormik({
+
+	mapStateToProps({name, age, email}) {
+		return {
+			id: Date.now() || '',
+			name: name || '',
+			age: age || '',
+			email: email || '',
+		}
+	},
+
+	handleSubmit(values) {
+		console.log('Add Friend', values)
+		axiosWithAuth()
+			.post('http://localhost:5000/api/friends', values)
+
+			.then(res => {
+				console.log('Submit Friend', res)
+			})
+
+			.catch(err => {
+				console.log('Submit Friend Error', err.response)
+			})
+	}
+})(NewFriend)
+
+export default NewFriendFormik;

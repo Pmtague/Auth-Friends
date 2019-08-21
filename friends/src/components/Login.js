@@ -1,8 +1,5 @@
 import React from 'react';
-import axios from 'axios';
-
 import { axiosWithAuth } from '../utils/axiosWithAuth';
-import { getData } from './FriendsList';
 
 class Login extends React.Component {
 	state = {
@@ -31,27 +28,35 @@ class Login extends React.Component {
 				this.props.history.push('/friendsList');
 			})
 			.catch(err => {
-				console.log('Error', err.response)
+				console.log('Login error', err.response)
 			})
 	};
 
 	render() {
 		return (
 			<div>
-				<form onSubmit={ this.login }>
-					<input
-						type='text'
-						name='username'
-						value={ this.state.credentials.username }
-						onChange={ this.handleChange }
-					/>
-					<input
-						type='password'
-						name='password'
-						value={ this.state.credentials.password }
-						onChange={ this.handleChange }
-					/>
-					<button onClick={ this.props.getData }>Log In</button>
+				<form className='login-form' onSubmit={ this.login }>
+					<label>
+						Username
+						<input
+							type='text'
+							name='username'
+							placeholder='pmtague'
+							value={ this.state.credentials.username }
+							onChange={ this.handleChange }
+						/>
+					</label>
+					<label>
+						Password
+						<input
+							type='password'
+							name='password'
+							placeholder='Top secret access code'
+							value={ this.state.credentials.password }
+							onChange={ this.handleChange }
+						/>
+					</label>
+					<button>Log In</button>
 				</form>
 			</div>
 		)
